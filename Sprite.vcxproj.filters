@@ -21,10 +21,28 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="sprite_player.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite_base.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite_rat.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="acllib.h">
       <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_player.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_base.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_rat.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
