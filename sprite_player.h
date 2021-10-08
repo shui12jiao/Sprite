@@ -4,10 +4,11 @@
 #include"sprite_base.h"
 
 
-class SpritePlayer :public SpriteBase {
+class SpritePlayer : public SpriteBase {
 private:
-    int score = 0;
+    static int score;
 public:
+    SpritePlayer() {}
     SpritePlayer(Pos pos, int height, int width, int speed, ACL_Image* img)
         :SpriteBase(pos, height, width, speed, img) {}
     SpritePlayer(SpritePlayer& player) :SpriteBase(player) {}
@@ -19,6 +20,7 @@ public:
     int getScore();
     void setScore(int s);
     void addScore(int m);
+    void initilize(Pos p, int h, int w, int s, ACL_Image* i);
 };
 
 

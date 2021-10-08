@@ -3,10 +3,11 @@
 
 #include"sprite_base.h"
 
-class SpriteRat {
+class SpriteRat : public SpriteBase {
+private:
+    int score = 1;
 public:
-    int score;
-public:
+    SpriteRat() {}
     SpriteRat(Pos pos, int height, int width, int speed, ACL_Image* img)
         :SpriteBase(pos, height, width, speed, img) {}
     SpriteRat(SpriteRat& rat) :SpriteBase(rat) {}
@@ -14,6 +15,7 @@ public:
 
     void move(int key, int HEIGHT, int WIDTH);
     int getScore();
+    void initilize(Pos p, int h, int w, int s, ACL_Image* i);
 };
 
 #endif // SPRITE_RAT_H__

@@ -1,79 +1,84 @@
 #include "acllib.h"
 #include"sprite_base.h"
 #include"sprite_player.h"
-#include<vector>
+#include"sprite_rat.h"
+#include<cstdio>
+#include<ctime>
+#include<utility>
 
-#define HEIGH 1600
-#define WIDTH 900
+using std::pair;
+using std::make_pair;
 
-const int spriteNum = 1;
-//---
-const int spriteRat = 10;
-//---
+#define HEIGHT 600
+#define WIDTH 800
 
-static SpritePlayer player;
-//template<typename T>
-//static vector<vector<T>> sprites = {
-//    vetor<>{}
-//}
-static bool gameOver;
-static bool pause;
+const int spriteNum = 2;    //sprit种类
+const int spritePlayerNum = 1;
+const int spriteRatNum = 10;
 
-template<typename T>
-void createData(T** tSprite);
+static SpritePlayer players[spritePlayerNum];
+static SpriteRat rats[spriteRatNum];
+static pair<SpriteBase*,int> sprites[spriteNum] = { make_pair(players,spritePlayerNum), make_pair(rats,spriteRatNum) };
+static ACL_Image images[spriteNum];
+
+static bool gameOver = false;
+static bool pause = false;
+
+void createSprite(pair<SpriteBase*, int> tSprites, ACL_Image* img);
+void paintSprite(pair<SpriteBase*,int> tSprites);
 void timerEvent(int id);
 void keyEvent(int key, int event);
 void paint();
 
 int Setup() {
-    //winRect.x = DEFAULT;
-    //winRect.y = DEFAULT;
-    //winRect.width = winWidth;
-    //winRect.height = winHeight;
-    //initWindow("auto sprite", DEFAULT, DEFAULT, winWidth, winHeight);
-    //srand((unsigned)time(NULL));
+    srand((unsigned)time(NULL));
 
-    //loadImage("jerry.bmp", &img);
-    //loadImage("tom.bmp", &imgUsr);
-    //loadImage("duck.jpg", &imgHeart);
-    ////autosprite[nowNum++] = new CAutoSprite(x, y, autoWidth, autoHeight, dx, dy, &img, winRect);
-    //createData(autosprite);
-    //createData(&usr);
+    initWindow("sprite game", DEFAULT, DEFAULT, WIDTH, HEIGHT);
+
+    loadImage("tom.bmp", images);
+    loadImage("jerry.bmp", images+1);
+    loadImage("duck.jpg", images +2);
+
+    for (int i = 0; i < spriteNum; ++i) {
+        createSprite(sprites[i], &images[i]);
+    }
+
     registerTimerEvent(timerEvent);
     registerKeyboardEvent(keyEvent);
-    //startTimer(0, 40);
-    //startTimer(1, 1000);
-    //return 0;
+    startTimer(0, 20);
+    startTimer(1, 100);
+
+    return 0;
 }
 
 void paint() {
-    //beginPaint();
-    //clearDevice();
-    //int i = 0;
-    //for (i = 0; i < nowNum; ++i)
-    //{
-    //	if (autosprite[i])
-    //	{
-    //		autosprite[i]->drawSprite();
-    //	}
-    //}
-    //if (usr)
-    //{
-    //	usr->drawSprite();
+    beginPaint();
+    clearDevice();
 
-    //	char txt[10];
-    //	sprintf_s(txt, "%d", usr->getScore());
-    //	setTextSize(20);
-    //	paintText(10, 10, txt);
-    //}
-    //endPaint();
+    for (int i = 0; i < spriteNum; ++i) {
+        paintSprite(sprites[i]);
+    }
+
+    char txt[20];
+    sprintf_s(txt, "Score: %d", players->getScore());
+
+    setTextSize(20);
+    paintText(10, 10, txt);
+
+
+    endPaint();
 }
 
 void keyEvent(int key, int event) {
-    //if (event != KEY_DOWN)return;
-    //if (usr)usr->move(key);
-    //for (int i = 0; i < nowNum; ++i)
-    //{
+    if (event != KEY_DOWN) { return; }
+
+    for (int i = 0; i < spritePlayerNum; ++i) {
+        if (players[i].survive) {
+            players[i].move(key,HEIGHT,WIDTH);
+        }
+    }
+
+    //for (int i = 0; i < nowNum; ++i){
     //	if (autosprite[i])
     //	{
     //		if (usr->collision(autosprite[i]->getRect()))
@@ -85,22 +90,20 @@ void keyEvent(int key, int event) {
     //		}
     //	}
     //}
-    //paint();
+
+    paint();
 }
 
 void timerEvent(int id) {
-    //int i = 0;
-    //switch (id)
-    //{
-    //case 0:
-    //    for (i = 0; i < nowNum; ++i)
-    //        if (autosprite[i])
-    //        {
+    //switch (id) {
+    //case 0: {
+    //    for (int i = 0; i < nowNum; ++i)
+    //        if (autosprite[i]) {
     //            rect ur = usr->getRect();
     //            autosprite[i]->move(ur);
 
     //        }
-
+    //}
     //    break;
     //case 1:
     //    if (nowNum < maxNum)
@@ -108,32 +111,20 @@ void timerEvent(int id) {
     //        createData(autosprite);
     //    }
     //    break;
-    //}//end switch
-    //paint();
+    //}
+
+    paint();
 }
 
-template<typename T>
-void createData(T** tSprite) {
-    /*int x = rand() % winWidth - autoWidth;
-    if (x < 0)x = 0;
-    int y = rand() % winHeight - autoHeight;
-    if (y < 0)y = 0;
-    int dx = rand() % 5 + 1;
-    int dy = rand() % 5 + 1;
-    int t = rand() % 100;
-    if (t < 80)
-        autosprite[nowNum++] = new CAutoSprite(x, y, autoWidth, autoHeight, dx, dy, &img, winRect, 1);
-    else
-        autosprite[nowNum++] = new CAvoidSprite(x, y, autoWidth, autoHeight, dx, dy, &imgHeart, winRect, 5);*/
+void createSprite(pair<SpriteBase*, int> tSprites, ACL_Image* img) {
+    for (int i = 0; i < tSprites.second; ++i) {
+        tSprites.first[i].initilize
+        (Pos(rand() % WIDTH,rand() % HEIGHT), WIDTH / 10, HEIGHT / 10, rand() % (HEIGHT / 15  + WIDTH / 15) + 1, img);
+    }
+}
 
-        //void createData(CUsrSprite** usr){
-        //    int x = rand() % winWidth - autoWidth;
-        //    if (x < 0)x = 0;
-        //    int y = rand() % winHeight - autoHeight;
-        //    if (y < 0)y = 0;
-        //    int dx = 5;
-        //    int dy = 5;
-        //    *usr = new CUsrSprite(x, y, usrWidth, usrHeight, dx, dy, &imgUsr, winRect);
-        //
-        //}
+void paintSprite(pair<SpriteBase*, int> tSprites) {
+    for (int i = 0; i < tSprites.second; ++i) {
+        tSprites.first[i].drawSprite();
+    }
 }

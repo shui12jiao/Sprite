@@ -45,4 +45,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="dog.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="duck.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="jerry.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="tom.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

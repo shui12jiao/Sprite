@@ -151,6 +151,12 @@
     <ClInclude Include="sprite_base.h" />
     <ClInclude Include="sprite_player.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="dog.bmp" />
+    <Image Include="duck.jpg" />
+    <Image Include="jerry.bmp" />
+    <Image Include="tom.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
