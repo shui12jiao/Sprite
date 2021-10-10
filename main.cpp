@@ -9,12 +9,12 @@
 using std::pair;
 using std::make_pair;
 
-#define HEIGHT 600
-#define WIDTH 800
+#define HEIGHT 768
+#define WIDTH 1024
 
 const int spriteNum = 2;    //sprit种类
-const int spritePlayerNum = 1;
-const int spriteRatNum = 10;
+const int spritePlayerNum = 3;
+const int spriteRatNum = 4;
 
 static SpritePlayer players[spritePlayerNum];
 static SpriteRat rats[spriteRatNum];
@@ -24,8 +24,8 @@ static ACL_Image images[spriteNum];
 static bool gameOver = false;
 static bool pause = false;
 
-void createSprite(pair<SpriteBase*, int> tSprites, ACL_Image* img);
-void paintSprite(pair<SpriteBase*,int> tSprites);
+void createSprite(pair<SpriteBase*, int>& tSprites, ACL_Image* img);
+void paintSprite(pair<SpriteBase*,int>& tSprites);
 void timerEvent(int id);
 void keyEvent(int key, int event);
 void paint();
@@ -95,35 +95,37 @@ void keyEvent(int key, int event) {
 }
 
 void timerEvent(int id) {
-    //switch (id) {
-    //case 0: {
-    //    for (int i = 0; i < nowNum; ++i)
-    //        if (autosprite[i]) {
-    //            rect ur = usr->getRect();
-    //            autosprite[i]->move(ur);
+    switch (id) {
+    case 0: {
+        /*for (int i = 1; i < spriteNum; ++i) {
+            for (int j = 0; j < sprites[i].second; ++j) {
+                if (sprites[i].first[j].survive) {
+                    sprites[i].first[j].move(0, HEIGHT, WIDTH);
+                }
+            }
+        }*/
+        sprites[0].first[0].move(VK_RIGHT, HEIGHT, WIDTH);
+        sprites[0].first[1].move(VK_RIGHT, HEIGHT, WIDTH);
+        sprites[1].first[0].move(VK_RIGHT, HEIGHT, WIDTH);
+        sprites[1].first[1].move(VK_RIGHT, HEIGHT, WIDTH);
 
-    //        }
-    //}
-    //    break;
-    //case 1:
-    //    if (nowNum < maxNum)
-    //    {
-    //        createData(autosprite);
-    //    }
-    //    break;
-    //}
+    } break;
+    case 1: {
+
+    } break;
+    }
 
     paint();
 }
 
-void createSprite(pair<SpriteBase*, int> tSprites, ACL_Image* img) {
+void createSprite(pair<SpriteBase*, int>& tSprites, ACL_Image* img) {
     for (int i = 0; i < tSprites.second; ++i) {
         tSprites.first[i].initilize
-        (Pos(rand() % WIDTH,rand() % HEIGHT), WIDTH / 10, HEIGHT / 10, rand() % (HEIGHT / 15  + WIDTH / 15) + 1, img);
+        (Pos(rand() % WIDTH,rand() % HEIGHT), HEIGHT / 10, WIDTH / 10, rand() % 10 + 10, img);
     }
 }
 
-void paintSprite(pair<SpriteBase*, int> tSprites) {
+void paintSprite(pair<SpriteBase*, int>& tSprites) {
     for (int i = 0; i < tSprites.second; ++i) {
         tSprites.first[i].drawSprite();
     }

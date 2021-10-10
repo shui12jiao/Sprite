@@ -1,37 +1,14 @@
 #include"sprite_rat.h"
 
 void SpriteRat::move(int key, int HEIGHT, int WIDTH) {
-    /*switch (key) {
-    case VK_UP:
-        pos.y -= speed;
-        break;
-    case VK_DOWN:
-        pos.y += speed;
-        break;
-    case VK_LEFT:
-        pos.x -= speed;
-        break;
-    case VK_RIGHT:
-        pos.x += speed;
-        break;
-    }*/
+    int h = height / 2, w = width / 2;
 
-    pos.x += speed;
-    pos.y += speed;
+    if ( pos.x < 0 || pos.x > WIDTH - w) speed = -speed;
+    if ( pos.y < 0 || pos.y > HEIGHT - h) speed = -speed;
 
+    pos.x += speed / 3;
+    pos.y += speed / 3;
 
-    if (pos.x > WIDTH + height) {
-        pos.x = -height;
-    }
-    else if (pos.x < -height) {
-        pos.x = WIDTH + height;
-    }
-    if (pos.y > (HEIGHT + height)) {
-        pos.y = -height;
-    }
-    else if (pos.y < -height) {
-        pos.y = HEIGHT + height;
-    }
 }
 
 int SpriteRat::getScore() {

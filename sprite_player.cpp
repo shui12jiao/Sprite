@@ -3,6 +3,8 @@
 int SpritePlayer::score = 0;
 
 void SpritePlayer::move(int key, int HEIGHT, int WIDTH) {
+    int h = height / 2, w = width / 2;
+
     switch (key) {
     case VK_UP:
         pos.y -= speed;
@@ -18,17 +20,17 @@ void SpritePlayer::move(int key, int HEIGHT, int WIDTH) {
         break;
     }
 
-    if (pos.x > WIDTH + height) {
-        pos.x = -height;
+    if (pos.x > WIDTH + w) {
+        pos.x = -w;
     }
-    else if (pos.x < -height) {
-        pos.x = WIDTH + height;
+    else if (pos.x < -w) {
+        pos.x = WIDTH + w;
     }
-    if (pos.y > (HEIGHT + height)) {
-        pos.y = -height;
+    if (pos.y > HEIGHT + h) {
+        pos.y = -h;
     }
-    else if (pos.y < -height) {
-        pos.y = HEIGHT + height;
+    else if (pos.y < -h) {
+        pos.y = HEIGHT + h;
     }
 }
 
