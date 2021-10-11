@@ -12,7 +12,7 @@ public:
 
 class SpriteBase {
 public:
-    bool survive = true;
+    bool survive = false;
     int width, height;
     int speed;
     ACL_Image* img;
@@ -22,7 +22,7 @@ public:
     SpriteBase(SpriteBase& base);
     ~SpriteBase() {}
 
-    virtual void move(int key, int HEIGHT, int WIDTH) = 0;
+    virtual void move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite) = 0;
 
     void drawSprite();
     void initilize(Pos p, int h, int w, int s, ACL_Image* i);

@@ -1,6 +1,6 @@
 #include"sprite_rat.h"
 
-void SpriteRat::move(int key, int HEIGHT, int WIDTH) {
+void SpriteRat::move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite) {
     int h = height / 2, w = width / 2;
 
     if ( pos.x < 0 || pos.x > WIDTH - w) speed = -speed;

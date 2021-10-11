@@ -2,7 +2,7 @@
 
 int SpritePlayer::score = 0;
 
-void SpritePlayer::move(int key, int HEIGHT, int WIDTH) {
+void SpritePlayer::move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite) {
     int h = height / 2, w = width / 2;
 
     switch (key) {

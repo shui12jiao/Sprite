@@ -30,6 +30,12 @@
     <ClCompile Include="sprite_rat.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="sprite_duck.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite_dog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="acllib.h">
@@ -42,6 +48,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sprite_rat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_duck.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_dog.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

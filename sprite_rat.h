@@ -13,7 +13,7 @@ public:
     SpriteRat(SpriteRat& rat) :SpriteBase(rat) {}
     ~SpriteRat() {}
 
-    void move(int key, int HEIGHT, int WIDTH);
+    void move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite = nullptr);
     int getScore();
 };
 

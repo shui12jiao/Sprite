@@ -141,12 +141,16 @@
   <ItemGroup>
     <ClCompile Include="acllib.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="sprite_dog.cpp" />
+    <ClCompile Include="sprite_duck.cpp" />
     <ClCompile Include="sprite_rat.cpp" />
     <ClCompile Include="sprite_base.cpp" />
     <ClCompile Include="sprite_player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="acllib.h" />
+    <ClInclude Include="sprite_dog.h" />
+    <ClInclude Include="sprite_duck.h" />
     <ClInclude Include="sprite_rat.h" />
     <ClInclude Include="sprite_base.h" />
     <ClInclude Include="sprite_player.h" />
