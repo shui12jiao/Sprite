@@ -15,7 +15,6 @@ public:
 
     void move(int key, int HEIGHT, int WIDTH);
     int getScore();
-    void initilize(Pos p, int h, int w, int s, ACL_Image* i);
 };
 
 #endif // SPRITE_RAT_H__

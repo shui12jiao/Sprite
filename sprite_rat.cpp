@@ -14,11 +14,3 @@ void SpriteRat::move(int key, int HEIGHT, int WIDTH) {
 int SpriteRat::getScore() {
     return score;
 }
-
-void SpriteRat::initilize(Pos p, int h, int w, int s, ACL_Image* i) {
-    pos = p;
-    height = h;
-    width = w;
-    speed = s;
-    img = i;
-}

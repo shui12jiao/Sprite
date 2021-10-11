@@ -58,11 +58,3 @@ void SpritePlayer::setScore(int s) {
 void SpritePlayer::addScore(int m) {
     score += m;
 }
-
-void SpritePlayer::initilize(Pos p, int h, int w, int s, ACL_Image* i) {
-    pos = p;
-    height = h;
-    width = w;
-    speed = s;
-    img = i;
-}

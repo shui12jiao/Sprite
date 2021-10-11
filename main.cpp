@@ -4,31 +4,29 @@
 #include"sprite_rat.h"
 #include<cstdio>
 #include<ctime>
-#include<utility>
 
-using std::pair;
-using std::make_pair;
 
 #define HEIGHT 768
 #define WIDTH 1024
 
+const int baseSpeed = 10;
 const int spriteNum = 2;    //sprit种类
-const int spritePlayerNum = 3;
-const int spriteRatNum = 4;
+const int spritePlayerNum = 2;
+const int spriteRatNum = 5;
 
 static SpritePlayer players[spritePlayerNum];
 static SpriteRat rats[spriteRatNum];
-static pair<SpriteBase*,int> sprites[spriteNum] = { make_pair(players,spritePlayerNum), make_pair(rats,spriteRatNum) };
 static ACL_Image images[spriteNum];
 
 static bool gameOver = false;
 static bool pause = false;
 
-void createSprite(pair<SpriteBase*, int>& tSprites, ACL_Image* img);
-void paintSprite(pair<SpriteBase*,int>& tSprites);
 void timerEvent(int id);
 void keyEvent(int key, int event);
 void paint();
+void spriteMove(int key);
+void createSprite();
+void paintSprite();
 
 int Setup() {
     srand((unsigned)time(NULL));
@@ -39,9 +37,7 @@ int Setup() {
     loadImage("jerry.bmp", images+1);
     loadImage("duck.jpg", images +2);
 
-    for (int i = 0; i < spriteNum; ++i) {
-        createSprite(sprites[i], &images[i]);
-    }
+    createSprite();
 
     registerTimerEvent(timerEvent);
     registerKeyboardEvent(keyEvent);
@@ -51,45 +47,10 @@ int Setup() {
     return 0;
 }
 
-void paint() {
-    beginPaint();
-    clearDevice();
-
-    for (int i = 0; i < spriteNum; ++i) {
-        paintSprite(sprites[i]);
-    }
-
-    char txt[20];
-    sprintf_s(txt, "Score: %d", players->getScore());
-
-    setTextSize(20);
-    paintText(10, 10, txt);
-
-
-    endPaint();
-}
-
 void keyEvent(int key, int event) {
     if (event != KEY_DOWN) { return; }
 
-    for (int i = 0; i < spritePlayerNum; ++i) {
-        if (players[i].survive) {
-            players[i].move(key,HEIGHT,WIDTH);
-        }
-    }
-
-    //for (int i = 0; i < nowNum; ++i){
-    //	if (autosprite[i])
-    //	{
-    //		if (usr->collision(autosprite[i]->getRect()))
-    //		{
-    //			int s = autosprite[i]->getScore();
-    //			if (usr)usr->addScore(s);
-    //			delete(autosprite[i]);
-    //			autosprite[i] = NULL;
-    //		}
-    //	}
-    //}
+    spriteMove(key);
 
     paint();
 }
@@ -97,18 +58,7 @@ void keyEvent(int key, int event) {
 void timerEvent(int id) {
     switch (id) {
     case 0: {
-        /*for (int i = 1; i < spriteNum; ++i) {
-            for (int j = 0; j < sprites[i].second; ++j) {
-                if (sprites[i].first[j].survive) {
-                    sprites[i].first[j].move(0, HEIGHT, WIDTH);
-                }
-            }
-        }*/
-        sprites[0].first[0].move(VK_RIGHT, HEIGHT, WIDTH);
-        sprites[0].first[1].move(VK_RIGHT, HEIGHT, WIDTH);
-        sprites[1].first[0].move(VK_RIGHT, HEIGHT, WIDTH);
-        sprites[1].first[1].move(VK_RIGHT, HEIGHT, WIDTH);
-
+        spriteMove(id);
     } break;
     case 1: {
 
@@ -118,15 +68,73 @@ void timerEvent(int id) {
     paint();
 }
 
-void createSprite(pair<SpriteBase*, int>& tSprites, ACL_Image* img) {
-    for (int i = 0; i < tSprites.second; ++i) {
-        tSprites.first[i].initilize
-        (Pos(rand() % WIDTH,rand() % HEIGHT), HEIGHT / 10, WIDTH / 10, rand() % 10 + 10, img);
+void paint() {
+    beginPaint();
+    clearDevice();
+
+    //sprite
+    paintSprite();
+
+    //score
+    char txt[20];
+    sprintf_s(txt, "Score: %d", players->getScore());
+    setTextSize(20);
+    paintText(10, 10, txt);
+
+    endPaint();
+}
+
+//---change
+void spriteMove(int key) {
+    if (key == 0) {
+        //rat
+        for (int i = 0; i < spriteRatNum; ++i) {
+            rats[i].move(key, HEIGHT, WIDTH);
+        }
+    }
+    else {
+        //player
+        for (int i = 0; i < spritePlayerNum; ++i) {
+            players[i].move(key, HEIGHT, WIDTH);
+        }
     }
 }
 
-void paintSprite(pair<SpriteBase*, int>& tSprites) {
-    for (int i = 0; i < tSprites.second; ++i) {
-        tSprites.first[i].drawSprite();
+void createSprite() {
+    //player
+    for (int i = 0; i < spritePlayerNum; ++i) {
+        if (players[i].survive) {
+            players[i].initilize
+            (Pos(rand() % WIDTH, rand() % HEIGHT), HEIGHT / 10, WIDTH / 10, rand() % 5 + players[i].speed + baseSpeed, &images[0]);
+        }
+        else {
+            players[i].speed /= 2;
+            players[i].survive = true;
+        }
+    }
+
+    //rat
+    for (int i = 0; i < spriteRatNum; ++i) {
+        if (players[i].survive) {
+            rats[i].initilize
+            (Pos(rand() % WIDTH, rand() % HEIGHT), HEIGHT / 10, WIDTH / 10, rand() % 5 + rats[i].speed + baseSpeed, &images[1]);
+        }
+        else {
+            rats[i].speed /= 2;
+            rats[i].survive = true;
+        }
+    }
+
+}
+
+void paintSprite() {
+    //player
+    for (int i = 0; i < spritePlayerNum; ++i) {
+        players[i].drawSprite();
+    }
+
+    //rat
+    for (int i = 0; i < spriteRatNum; ++i) {
+        rats[i].drawSprite();
     }
 }

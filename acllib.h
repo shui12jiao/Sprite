@@ -128,7 +128,10 @@ typedef void(*KeyboardEventCallback) (int key, int event);
 typedef void(*CharEventCallback) (char c);
 typedef void(*MouseEventCallback) (int x, int y, int button, int event);
 typedef void(*TimerEventCallback) (int timerID);
-
+typedef struct rect
+{
+	int x, y, width, height;
+}rect;
 #ifdef __cplusplus
 extern "C" {
 #endif
