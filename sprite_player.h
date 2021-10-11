@@ -14,7 +14,7 @@ public:
     SpritePlayer(SpritePlayer& player) :SpriteBase(player) {}
     ~SpritePlayer() {}
 
-    void move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite);
+    void move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite = nullptr);
 
     bool collision(const SpriteBase& sprite);
     int getScore();

@@ -3,7 +3,7 @@
 int SpritePlayer::score = 0;
 
 void SpritePlayer::move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite) {
-    int h = height / 2, w = width / 2;
+    int h = height / 3, w = width / 3;
 
     switch (key) {
     case VK_UP:
@@ -36,12 +36,12 @@ void SpritePlayer::move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite
 
 bool SpritePlayer::collision(const SpriteBase& sprite) {
     if (pos.x < sprite.pos.x && pos.x + width > sprite.pos.x) {
-        if (pos.y > sprite.pos.y && pos.y < sprite.pos.y + sprite.height)return true;
-        if (pos.y < sprite.pos.y && pos.y + height > sprite.pos.y)return true;
+        if (pos.y > sprite.pos.y && pos.y < sprite.pos.y + sprite.height) { return true; }
+        if (pos.y < sprite.pos.y && pos.y + height > sprite.pos.y) { return true; }
     }
     else if (pos.x > sprite.pos.x && pos.x < sprite.pos.x + sprite.width) {
-        if (pos.y > sprite.pos.y && pos.y < sprite.pos.y + sprite.height)return true;
-        if (pos.y < sprite.pos.y && pos.y + height > sprite.pos.y)return true;
+        if (pos.y > sprite.pos.y && pos.y < sprite.pos.y + sprite.height) { return true; }
+        if (pos.y < sprite.pos.y && pos.y + height > sprite.pos.y) { return true; }
     }
 
     return false;

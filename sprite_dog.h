@@ -11,7 +11,7 @@ public:
     SpriteDog(SpriteDog& rat) :SpriteBase(rat) {}
     ~SpriteDog() {}
 
-    void move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite = nullptr);
+    void move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite);
 };
 
 #endif // SPRITE_DOG_H__

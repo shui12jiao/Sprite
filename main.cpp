@@ -9,7 +9,7 @@
 
 
 #define HEIGHT 900
-#define WIDTH 1600
+#define WIDTH 1200
 
 const int baseSpeed = 10;
 const int spriteNum = 2;    //sprit种类
@@ -113,7 +113,7 @@ void spriteMove(int key) {
             //meet dog
             for (int j = 0; j < spriteDogNum; ++j) {
                 if (players[i].survive && players[i].collision(dogs[j])) {
-                    players[i].survive = false;
+                    //players[i].survive = false;----------------------------------------------
                     players->setScore(players->getScore() / 2);
                 }
             }
@@ -122,6 +122,14 @@ void spriteMove(int key) {
         //rat
         for (int i = 0; i < spriteRatNum; ++i) {
             rats[i].move(key, HEIGHT, WIDTH);
+        }
+        //duck
+        for (int i = 0; i < spriteDuckNum; ++i) {
+            ducks[i].move(key, HEIGHT, WIDTH, players);
+        }
+        //dog
+        for (int i = 0; i < spriteDogNum; ++i) {
+            dogs[i].move(key, HEIGHT, WIDTH, players);
         }
     }
     else {
@@ -156,25 +164,26 @@ void createSprite() {
 
             int nSpeed = rats[i].speed / 2 + rand() % baseSpeed;
             if (rats[i].speed < 0) {
-                nSpeed -= baseSpeed; 
+                nSpeed -= baseSpeed;
             }
             else {
                 nSpeed += baseSpeed;
             }
             int h = HEIGHT / 10, w = WIDTH / 10;
-            rats[i].initilize(Pos(rand() % (WIDTH  - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h /2),h, w, nSpeed, images + 1);
+            rats[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h / 1.5, w / 1.5, nSpeed / 3, images + 1);
         }
     }
 
     //duck
-    for (int i = 0; i < spriteRatNum; ++i) {
+    for (int i = 0; i < spriteDuckNum; ++i) {
         if (ducks[i].survive) {
             continue;
         }
         else {
             ducks[i].survive = true;
+            ducks[i].escape = true;
 
-            int nSpeed = rand() % baseSpeed;
+            int nSpeed = ducks[i].speed / 2 + rand() % baseSpeed;
             if (ducks[i].speed < 0) {
                 nSpeed -= baseSpeed / 2;
             }
@@ -182,12 +191,12 @@ void createSprite() {
                 nSpeed += baseSpeed / 2;
             }
             int h = HEIGHT / 10, w = WIDTH / 10;
-            ducks[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h, w, nSpeed, images + 2);
+            ducks[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h / 1.5, w / 1.5, nSpeed / 3, images + 2);
         }
     }
 
     //dog
-    for (int i = 0; i < spriteRatNum; ++i) {
+    for (int i = 0; i < spriteDogNum; ++i) {
         if (dogs[i].survive) {
             continue;
         }
@@ -197,7 +206,7 @@ void createSprite() {
             int nSpeed = rand() % baseSpeed + baseSpeed / 3;
 
             int h = HEIGHT / 10, w = WIDTH / 10;
-            dogs[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h, w, nSpeed, images + 3);
+            dogs[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h, w, nSpeed / 3, images + 3);
         }
     }
 
