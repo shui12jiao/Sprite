@@ -1,4 +1,4 @@
-#include "acllib.h"
+#include"acllib.h"
 #include"sprite_base.h"
 #include"sprite_player.h"
 #include"sprite_rat.h"
@@ -13,12 +13,11 @@
 
 const int baseSpeed = 10;
 const int spriteNum = 2;    //sprit种类
-const int spritePlayerNum = 1;
 const int spriteRatNum = 5;
 const int spriteDuckNum = 3;
 const int spriteDogNum = 2;
 
-static SpritePlayer players[spritePlayerNum];
+static SpritePlayer player;
 static SpriteRat rats[spriteRatNum];
 static SpriteDuck ducks[spriteDuckNum];
 static SpriteDog dogs[spriteDogNum];
@@ -84,7 +83,7 @@ void paint() {
 
     //score
     char txt[20];
-    sprintf_s(txt, "Score: %d", players->getScore());
+    sprintf_s(txt, "Score: %d", player.getScore());
     setTextSize(20);
     paintText(10, 10, txt);
 
@@ -94,30 +93,28 @@ void paint() {
 //---change
 void spriteMove(int key) {
     if (key == 0) {
-        //player
-        for (int i = 0; i < spritePlayerNum; ++i) {
-            //meet rat
-            for (int j = 0; j < spriteRatNum; ++j) {
-                if (rats[j].survive && players[i].collision(rats[j])) {
-                    rats[j].survive = false;
-                    players->addScore(rats[j].getScore());
-                }
-            }
-            //meet duck
-            for (int j = 0; j < spriteDuckNum; ++j) {
-                if (ducks[j].survive && players[i].collision(ducks[j])) {
-                    ducks[j].survive = false;
-                    players->addScore(ducks[j].getScore());
-                }
-            }
-            //meet dog
-            for (int j = 0; j < spriteDogNum; ++j) {
-                if (players[i].survive && players[i].collision(dogs[j])) {
-                    //players[i].survive = false;----------------------------------------------
-                    players->setScore(players->getScore() / 2);
-                }
+        //meet rat
+        for (int j = 0; j < spriteRatNum; ++j) {
+            if (rats[j].survive && player.collision(rats[j])) {
+                rats[j].survive = false;
+                player.addScore(rats[j].getScore());
             }
         }
+        //meet duck
+        for (int j = 0; j < spriteDuckNum; ++j) {
+            if (ducks[j].survive && player.collision(ducks[j])) {
+                ducks[j].survive = false;
+                player.addScore(ducks[j].getScore());
+            }
+        }
+        //meet dog
+        for (int j = 0; j < spriteDogNum; ++j) {
+            if (player.survive && player.collision(dogs[j])) {
+                player.survive = false;
+                player.setScore(player.getScore() / 2);
+            }
+        }
+        
 
         //rat
         for (int i = 0; i < spriteRatNum; ++i) {
@@ -125,33 +122,26 @@ void spriteMove(int key) {
         }
         //duck
         for (int i = 0; i < spriteDuckNum; ++i) {
-            ducks[i].move(key, HEIGHT, WIDTH, players);
+            ducks[i].move(key, HEIGHT, WIDTH, &player);
         }
         //dog
         for (int i = 0; i < spriteDogNum; ++i) {
-            dogs[i].move(key, HEIGHT, WIDTH, players);
+            dogs[i].move(key, HEIGHT, WIDTH, &player);
         }
     }
     else {
         //player
-        for (int i = 0; i < spritePlayerNum; ++i) {
-            players[i].move(key, HEIGHT, WIDTH);
-        }
+        player.move(key, HEIGHT, WIDTH);
     }
 }
 
 void createSprite() {
     //player
-    for (int i = 0; i < spritePlayerNum; ++i) {
-        if (players[i].survive) {
-            continue;
-        }
-        else {
-            players[i].survive = true;
+    if (!player.survive) {
+        player.survive = true;
 
-            int nSpeed = players[i].speed / 2 + rand() % baseSpeed + baseSpeed;
-            players[i].initilize(Pos(rand() % WIDTH, rand() % HEIGHT), HEIGHT / 10, WIDTH / 10, nSpeed, images);
-        }
+        int nSpeed = player.speed / 2 + rand() % baseSpeed + baseSpeed;
+        player.initilize(Pos(rand() % WIDTH, rand() % HEIGHT), HEIGHT / 10, WIDTH / 10, nSpeed, images);
     }
 
     //rat
@@ -162,15 +152,15 @@ void createSprite() {
         else {
             rats[i].survive = true;
 
-            int nSpeed = rats[i].speed / 2 + rand() % baseSpeed;
-            if (rats[i].speed < 0) {
+            int nSpeed = (rats[i].speed / 2 + rand() % baseSpeed) / 3;
+            if (nSpeed < 0) {
                 nSpeed -= baseSpeed;
             }
             else {
                 nSpeed += baseSpeed;
             }
             int h = HEIGHT / 10, w = WIDTH / 10;
-            rats[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h / 1.5, w / 1.5, nSpeed / 3, images + 1);
+            rats[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h / 1.5, w / 1.5, nSpeed, images + 1);
         }
     }
 
@@ -183,15 +173,9 @@ void createSprite() {
             ducks[i].survive = true;
             ducks[i].escape = true;
 
-            int nSpeed = ducks[i].speed / 2 + rand() % baseSpeed;
-            if (ducks[i].speed < 0) {
-                nSpeed -= baseSpeed / 2;
-            }
-            else {
-                nSpeed += baseSpeed / 2;
-            }
+            int nSpeed = rand() % baseSpeed / 3 + baseSpeed / 1.5;
             int h = HEIGHT / 10, w = WIDTH / 10;
-            ducks[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h / 1.5, w / 1.5, nSpeed / 3, images + 2);
+            ducks[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h / 1.5, w / 1.5, nSpeed, images + 2);
         }
     }
 
@@ -203,10 +187,10 @@ void createSprite() {
         else {
             dogs[i].survive = true;
 
-            int nSpeed = rand() % baseSpeed + baseSpeed / 3;
+            int nSpeed = rand() % baseSpeed / 2 + baseSpeed / 4;
 
             int h = HEIGHT / 10, w = WIDTH / 10;
-            dogs[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h, w, nSpeed / 3, images + 3);
+            dogs[i].initilize(Pos(rand() % (WIDTH - w - 10) + w / 2, rand() % (HEIGHT - h - 10) + h / 2), h, w, nSpeed, images + 3);
         }
     }
 
@@ -214,9 +198,7 @@ void createSprite() {
 
 void paintSprite() {
     //player
-    for (int i = 0; i < spritePlayerNum; ++i) {
-        players[i].drawSprite();
-    }
+    player.drawSprite();
 
     //rat
     for (int i = 0; i < spriteRatNum; ++i) {

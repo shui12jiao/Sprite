@@ -52,7 +52,7 @@ void SpriteDuck::danger(const SpriteBase* sprite) {
         escape = true;
         speed *= 2;
     }
-    if (dist > limit && escape) {
+    if (dist > limit * 2 && escape) {
         escape = false;
         speed /= -2;
     }
