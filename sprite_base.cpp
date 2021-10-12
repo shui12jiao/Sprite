@@ -11,6 +11,7 @@ void SpriteBase::drawSprite() {
 }
 
 void SpriteBase::initilize(Pos p, int h, int w, int s, ACL_Image* i) {
+    survive = true;
     pos = p;
     height = h;
     width = w;

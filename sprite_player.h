@@ -3,10 +3,9 @@
 
 #include"sprite_base.h"
 
-
 class SpritePlayer : public SpriteBase {
-private:
-    static int score;
+public:
+    int score = 0;
 public:
     SpritePlayer() {}
     SpritePlayer(Pos pos, int height, int width, int speed, ACL_Image* img)

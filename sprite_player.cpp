@@ -1,7 +1,5 @@
 #include"sprite_player.h"
 
-int SpritePlayer::score = 0;
-
 void SpritePlayer::move(int key, int HEIGHT, int WIDTH, const SpriteBase* sprite) {
     int h = height / 3, w = width / 3;
 

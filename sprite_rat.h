@@ -4,7 +4,7 @@
 #include"sprite_base.h"
 
 class SpriteRat : public SpriteBase {
-private:
+public:
     int score = 1;
 public:
     SpriteRat() {}
@@ -18,4 +18,3 @@ public:
 };
 
 #endif // SPRITE_RAT_H__
-

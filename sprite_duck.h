@@ -4,10 +4,9 @@
 #include"sprite_base.h"
 
 class SpriteDuck : public SpriteBase {
-private:
-    int score = 3;
 public:
     bool escape = false;
+    int score = 3;
 public:
     SpriteDuck() {}
     SpriteDuck(Pos pos, int height, int width, int speed, ACL_Image* img)
