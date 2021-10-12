@@ -41,6 +41,14 @@ bool SpritePlayer::collision(const SpriteBase& sprite) {
         if (pos.y > sprite.pos.y && pos.y < sprite.pos.y + sprite.height) { return true; }
         if (pos.y < sprite.pos.y && pos.y + height > sprite.pos.y) { return true; }
     }
+    if (pos.y < sprite.pos.y && pos.y + width > sprite.pos.y) {
+        if (pos.x > sprite.pos.x && pos.x < sprite.pos.x + sprite.height) { return true; }
+        if (pos.x < sprite.pos.x && pos.x + height > sprite.pos.x) { return true; }
+    }
+    else if (pos.y > sprite.pos.y && pos.y < sprite.pos.y + sprite.width) {
+        if (pos.x > sprite.pos.x && pos.x < sprite.pos.x + sprite.height) { return true; }
+        if (pos.x < sprite.pos.x && pos.x + height > sprite.pos.x) { return true; }
+    }
 
     return false;
 }
