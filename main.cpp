@@ -12,19 +12,16 @@
 #define WIDTH 1200
 
 const int baseSpeed = 10;
-const int spriteNum = 2;    //sprit种类
 const int spriteRatNum = 9;
 const int spriteDuckNum = 6;
 const int spriteDogNum = 3;
+const int spriteNum = 4;    //sprit种类
 
 static SpritePlayer player;
 static SpriteRat rats[spriteRatNum];
 static SpriteDuck ducks[spriteDuckNum];
 static SpriteDog dogs[spriteDogNum];
 static ACL_Image images[spriteNum];
-
-static bool gameOver = false;
-static bool pause = false;
 
 void timerEvent(int id);
 void keyEvent(int key, int event);
